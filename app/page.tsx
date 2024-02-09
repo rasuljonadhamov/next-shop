@@ -21,7 +21,7 @@ export default async function Home() {
       <div className="block container px-4 mx-auto ">
         <input
           type="search"
-          className="p-3 border-2 mt-28 rounded-lg"
+          className="p-3 border-2 mt-8 rounded-lg"
           placeholder="Search..."
         />
       </div>
