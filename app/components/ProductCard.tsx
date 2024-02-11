@@ -1,9 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { EventEmitter } from "eventemitter";
-
-const emitter = new EventEmitter();
 
 interface Product {
   id: number;
@@ -28,26 +25,11 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
   const handleAddToCart = (product: {}) => {
-    emitter.emit("cartUpdated", product); // Emit event with product data
+    alert("cartUpdated", product);
   };
-  // const handleAddToCart = (productId: number) => {
-  //   setCartItems((prevCartItems: {}) => {
-  //     const existingItemIndex = prevCartItems.findIndex(
-  //       (item: { id: number }) => item.id === productId
-  //     );
-  //     if (existingItemIndex !== -1) {
-  //       return prevCartItems.map((item, index: number) =>
-  //         index === existingItemIndex
-  //           ? { ...item, quantity: item.quantity + 1 }
-  //           : item
-  //       );
-  //     } else {
-  //       return [...prevCartItems, { id: productId, quantity: 1 }];
-  //     }
-  //   });
-  // };
 
   return (
+    
     <div className="grid px-16 mt-12 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       {products.map((product) => (
         <div
@@ -56,8 +38,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ products }) => {
         >
           <Link href={`/product/${product.id}`}>
             <img
-              src={product.category.image}
-              alt={product.name}
+              src={product.images[0]}
+              alt={product.title}
               className="w-full h-48 object-cover rounded-t-lg cursor-pointer"
             />
           </Link>
