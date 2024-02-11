@@ -1,33 +1,50 @@
-// async function getData(id: number) {
-//   const res = await fetch("https://api.escuelajs.co/api/v1/products" + id);
+import MyHeader from "@/app/components/Header";
 
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch data");
-//   }
+async function getData() {
+  const res = await fetch(`https://api.escuelajs.co/api/v1/products`);
+  return res.json();
+}
 
-//   return res.json();
-// }
+export default async function ProductDetails({ params }) {
+  const id = Number(params.id);
+  const data = await getData();
 
-// export async function getStaticProps({ params }) {
-//   try {
-//     const { id } = params;
-//     const productData = await getData(id);
-//     // ... rest of your code
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     return { notFound: true }; // Or handle the error differently
-//   }
-// }
+  const product = data.find((p) => p.id === id);
 
-// export default function ProductDetails({ product, notFound }) {
-//   if (notFound) {
-//     return <div>Product not found!</div>;
-//   }
+  console.log(product);
 
-//   return (
-//     <div>
-//       <h1>{product.title}</h1>
-//       <p>{product.description}</p>
-//     </div>
-//   );
-// }
+  // if (!product) {
+  //   return (
+  //     <div>
+  //       <h2>Product not found</h2>
+  //     </div>
+  //   );
+  // }
+
+  return (
+    <>
+        <MyHeader />
+      <div key={product.id} className="mt-16 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+          <div className="flex justify-center">
+            <img
+              className="w-full h-auto rounded-lg shadow-md"
+              src={product.images[0]}
+              alt={product.title}
+            />
+          </div>
+          <div className="flex flex-col space-y-4">
+            <h2 className="text-2xl font-bold">{product.title}</h2>
+            <p className="text-gray-600">{product.description}</p>
+            <span className="text-lg font-semibold">
+              Price: ${product.price}
+            </span>
+            <span className="text-sm text-gray-600">
+              Category: {product.category.name}
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
